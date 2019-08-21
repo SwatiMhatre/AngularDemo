@@ -1,0 +1,152 @@
+<ngb-tabset #t="ngbTabset">
+  <ngb-tab title="Step 1" [disabled]="this.setp1Tab" id="step1">
+    <ng-template ngbTabContent>
+      <div class="row">
+        <div class="col-md-12">
+          <br>
+          <h2>Enter Payment Details</h2>
+          <hr>
+        </div>
+      </div>
+      <form [formGroup]="createForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="credit_ac">Credit to</label>
+              <select id="credit_ac" class="form-control" [(ngModel)]="creditAccount" formControlName="creditAccount">
+                  <option *ngFor="let creditAcc of creditAcs" value="{{creditAcc.accountNumber}}">
+                    <span>{{creditAcc.accountNumber}}</span>
+                    <span> {{creditAcc.accountType}}</span>
+                  </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                <label for="debit_ac">Debit from</label>
+                <select id="debit_ac" class="form-control" [(ngModel)]="debitAccount" name="debitAccount" formControlName="debitAccount">
+                <option *ngFor="let debitAccount of debitAcs" value="{{debitAccount.accountNumber}}">
+                  <span>{{debitAccount.accountNumber}}</span>
+                  <span> {{debitAccount.accountType}}</span>
+                </option>
+                </select>
+              </div>
+            </div>
+          </div>
+		<div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputBenificiary">Reason for Payment</label>
+              <input type="text" class="form-control" id="exampleInputBenificiary" placeholder="Enter Reason" name="reason" formControlName="reason">
+            </div>
+          </div>
+		  <div class="col-md-6">
+			  <label for="debit_ac">Execution Date</label>
+			  <div class="input-group date">
+
+        <input class="form-control" placeholder="yyyy-mm-dd"
+             name="executionDate" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="executionDate" formControlName="executionDate">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+        </div>
+
+			  </div>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="col-md-6">
+			<div class="form-group">
+			  <label for="exampleInputBenificiary">Amount*</label>
+        <input type="number" class="form-control" id="exampleInputBenificiary" placeholder="Enter Amount" name="amount" formControlName="amount">
+        <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">You must enter amount.</div>
+			</div>
+		  </div>
+		  <div class="col-md-6">
+			<div class="form-group">
+			  <label for="exampleInputBenificiary">Currency*</label>
+        <!-- <input type="text" class="form-control" id="exampleInputBenificiary" placeholder="Enter Currency" name="currency" formControlName="currency"> -->
+        <select id="currency" class="form-control" formControlName="currency">
+          <option value="INR">INR</option>
+          <option value="JPY">JPY</option>
+          <option value="GBP">GBP</option>
+          <option value="AUD">AUD</option>
+          <option value="CAD">CAD</option>
+          <option value="CHF">CHF</option>
+          <option value="CNH">CNH</option>
+          <option value="SEK">SEK</option>
+          <option value="NZD">NZD</option>
+        </select>
+			</div>
+		  </div>
+		</div>
+        <div class="row">
+          <div class="col-md-6">
+            <button class="btn btn-primary" (click)="window.location.href='/'">Cancel</button>
+          </div>
+          <div class="col-md-6 text-right">
+            <button class="btn btn-primary" (click)="createPayment(createForm.value); t.select('step2')" >Review</button>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Step 2" [disabled]="this.setp2Tab" id="step2">
+    <ng-template ngbTabContent>
+      <br>
+      <h2>Review Payment Details</h2>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <div>
+            <label for=""><b>Benificiary Name</b></label><br>
+            <p>{{beneficiaryName.accountType}}</p>
+            <br>
+          </div>
+          <div>
+            <label for=""><b>Reason for payment</b></label><br>
+            <p>{{reason}}</p>
+            <br>
+          </div>
+          <div>
+              <label for=""><b>Execution Date</b></label><br>
+              <p>{{executionDate.year}}-{{executionDate.month}}-{{executionDate.day}}</p>
+              <br>
+            </div>
+        </div>
+        <div class="col-md-6">
+          <div>
+            <label for=""><b>Amount</b></label><br>
+            <p>{{currency}} {{amount}}</p>
+            <br>
+          </div>
+          <div>
+            <label for=""><b>Debit Account</b></label><br>
+            <p>{{debitAccount}}</p>
+            <br>
+          </div>
+          <div>
+              <label for=""><b>Account Type</b></label><br>
+              <p>{{accountType.accountType}}</p>
+              <br>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=true;this.step3Tab=false;t.select('step1')">Back</button>
+        </div>
+        <div class="col-md-6 text-right">
+          <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=false;this.step3Tab=true;t.select('step3');postData(createForm.value)">Confirm</button>
+        </div>
+      </div>
+      <br><br><br>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Step 3" [disabled]="this.step3Tab" id="step3">
+    <ng-template ngbTabContent>
+      <br/>
+      <h2>Payment Created Successfully</h2>
+      <br/>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
