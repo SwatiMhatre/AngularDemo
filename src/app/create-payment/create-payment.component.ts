@@ -24,6 +24,7 @@ export class CreatePaymentComponent implements OnInit {
   selectedTab = 0;
   public beneficiaryName: string;
   public accountType: string;
+  submitted = false;
 
   createForm: FormGroup;
 
@@ -34,7 +35,8 @@ export class CreatePaymentComponent implements OnInit {
       creditAccount: ['', [Validators.required]],
       debitAccount: ['', [Validators.required]],
       reason: [''],
-      amount: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      amount: ['', [Validators.required]],
+      //amount: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       currency: ['', [Validators.required]],
       executionDate: ['', [Validators.required]],
     });
@@ -101,7 +103,12 @@ export class CreatePaymentComponent implements OnInit {
       this.accountType = JSON.parse(JSON.stringify(this.debitAcs)).find(item => item.accountNumber == this.createForm.value['debitAccount']);
     } else {
       this.createForm.get('amount').markAsTouched();
+      this.createForm.get('creditAccount').markAsTouched();
+      this.createForm.get('debitAccount').markAsTouched();
+      this.createForm.get('currency').markAsTouched();
+      this.createForm.get('executionDate').markAsTouched();
     }
+    this.submitted = true;
   }
 
   private initializeFormData(createForm) {

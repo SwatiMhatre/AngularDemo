@@ -19,7 +19,10 @@
                     <span> {{creditAcc.accountType}}</span>
                   </option>
               </select>
-              <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">Please select credit account.</div>
+              <!-- <div *ngIf="submitted && createForm.controls.creditAccount.errors" class="alert alert-danger">
+                <div *ngIf="createForm.controls.creditAccount.invalid">Please select credit account.</div>
+              </div> -->
+              <div *ngIf="submitted && createForm.controls.creditAccount.invalid" class="alert alert-danger">Please select credit account.</div>
             </div>
           </div>
           <div class="col-md-6">
@@ -31,7 +34,7 @@
                   <span> {{debitAccount.accountType}}</span>
                 </option>
                 </select>
-                <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">Please select debit account.</div>
+                <div *ngIf="submitted && createForm.controls.debitAccount.invalid" class="alert alert-danger">Please select debit account.</div>
               </div>
             </div>
           </div>
@@ -53,7 +56,7 @@
         </div>
         
         </div>
-        <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">You must enter date.</div>
+        <div *ngIf="submitted && createForm.controls.executionDate.invalid" class="alert alert-danger">You must enter date.</div>
 		  </div>
 		</div>
 		<div class="row">
@@ -61,7 +64,7 @@
 			<div class="form-group">
 			  <label for="exampleInputBenificiary">Amount*</label>
         <input type="number" class="form-control" id="exampleInputBenificiary" placeholder="Enter Amount" name="amount" formControlName="amount">
-        <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">You must enter amount.</div>
+        <div *ngIf="submitted && createForm.controls.amount.invalid" class="alert alert-danger">You must enter amount.</div>
 			</div>
 		  </div>
 		  <div class="col-md-6">
@@ -79,7 +82,7 @@
           <option value="SEK">SEK</option>
           <option value="NZD">NZD</option>
         </select>
-        <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">You must select currency.</div>
+        <div *ngIf="submitted && createForm.controls.currency.invalid" class="alert alert-danger">You must select currency.</div>
 			</div>
 		  </div>
 		</div>
@@ -125,7 +128,7 @@
           </div>
           <div>
             <label for=""><b>Debit Account</b></label><br>
-            <p>{{debitAccount}}</p>
+            <p>{{debitAccount | formataccount}}</p>
             <br>
           </div>
           <div>
@@ -139,7 +142,7 @@
         <!-- <div class="col-md-6">
           <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=true;this.step3Tab=false;t.select('step1')">Back</button>
         </div> -->
-        <div class="col-md-6 text-right">
+        <div class="col-md-12 text-right">
           <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=false;this.step3Tab=true;t.select('step3');postData(createForm.value)">Confirm</button>
         </div>
       </div>
