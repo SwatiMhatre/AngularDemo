@@ -19,6 +19,7 @@
                     <span> {{creditAcc.accountType}}</span>
                   </option>
               </select>
+              <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">Please select credit account.</div>
             </div>
           </div>
           <div class="col-md-6">
@@ -30,6 +31,7 @@
                   <span> {{debitAccount.accountType}}</span>
                 </option>
                 </select>
+                <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">Please select debit account.</div>
               </div>
             </div>
           </div>
@@ -49,8 +51,9 @@
         <div class="input-group-append">
           <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
         </div>
-
-			  </div>
+        
+        </div>
+        <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">You must enter date.</div>
 		  </div>
 		</div>
 		<div class="row">
@@ -76,12 +79,13 @@
           <option value="SEK">SEK</option>
           <option value="NZD">NZD</option>
         </select>
+        <div *ngIf="createForm.controls.amount.touched" class="alert alert-danger">You must select currency.</div>
 			</div>
 		  </div>
 		</div>
         <div class="row">
           <div class="col-md-6">
-            <button class="btn btn-primary" (click)="window.location.href='/'">Cancel</button>
+            <button class="btn btn-primary" (click)="cancel()">Cancel</button>
           </div>
           <div class="col-md-6 text-right">
             <button class="btn btn-primary" (click)="createPayment(createForm.value); t.select('step2')" >Review</button>
@@ -104,7 +108,7 @@
           </div>
           <div>
             <label for=""><b>Reason for payment</b></label><br>
-            <p>{{reason}}</p>
+            <p>{{createForm.controls.reason.value}}</p>
             <br>
           </div>
           <div>
@@ -116,7 +120,7 @@
         <div class="col-md-6">
           <div>
             <label for=""><b>Amount</b></label><br>
-            <p>{{currency}} {{amount}}</p>
+            <p>{{createForm.controls.currency.value}} {{createForm.controls.amount.value}}</p>
             <br>
           </div>
           <div>
@@ -132,9 +136,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=true;this.step3Tab=false;t.select('step1')">Back</button>
-        </div>
+        </div> -->
         <div class="col-md-6 text-right">
           <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=false;this.step3Tab=true;t.select('step3');postData(createForm.value)">Confirm</button>
         </div>

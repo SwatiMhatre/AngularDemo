@@ -11,8 +11,6 @@ import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { HomeComponent } from './home/home.component';
 import { PaymentListComponent } from './payment-list/payment-list.component';
 import { CreatePaymentComponent } from './create-payment/create-payment.component';
-import { OrderSuccessComponent } from './order-success/order-success.component';
-import { ReviewPaymentComponent } from './review-payment/review-payment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -22,8 +20,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     PaymentListComponent,
     CreatePaymentComponent,
-    OrderSuccessComponent,
-    ReviewPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +29,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       { path : '', component: HomeComponent},
       { path : 'payment-list', component: PaymentListComponent},
       { path : 'create-payment', component: CreatePaymentComponent},
-      { path : 'payment-success', component: OrderSuccessComponent},
-      { path : 'review-success', component: ReviewPaymentComponent}
     ]),
     HttpClientModule,
     FormsModule,
