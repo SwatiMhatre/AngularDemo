@@ -143,7 +143,7 @@
           <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=true;this.step3Tab=false;t.select('step1')">Back</button>
         </div> -->
         <div class="col-md-12 text-right">
-          <button class="btn btn-primary" (click)="this.setp1Tab=false;this.setp2Tab=false;this.step3Tab=true;t.select('step3');postData(createForm.value)">Confirm</button>
+          <button class="btn btn-primary" (click)="postData(createForm.value);  t.select('step3');">Confirm</button>
         </div>
       </div>
       <br><br><br>

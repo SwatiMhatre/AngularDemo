@@ -1,6 +1,6 @@
 import { PaymentList } from './../payment-list.service';
 import { CreditAcService } from './../credit-ac.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +30,7 @@ export class CreatePaymentComponent implements OnInit {
 
   get f() { return this.createForm.controls; }
 
-  constructor(private creditAcService: CreditAcService, private paymentListService: PaymentList, private parserFormatter: NgbDateParserFormatter, formBuilder: FormBuilder, public router: Router) {
+  constructor(private creditAcService: CreditAcService, private paymentListService: PaymentList, private parserFormatter: NgbDateParserFormatter, formBuilder: FormBuilder, public router: Router, private ref: ChangeDetectorRef) {
     this.createForm = formBuilder.group({
       creditAccount: ['', [Validators.required]],
       debitAccount: ['', [Validators.required]],
@@ -93,9 +93,8 @@ export class CreatePaymentComponent implements OnInit {
     if (!this.createForm.invalid) {
       this.setp1Tab = true;
       this.setp2Tab = false;
-      this.step3Tab = false;
+      this.step3Tab = true;
       this.initializeFormData(t);
-      //console.log("creditAcs",JSON.parse(this.creditAcs).find(item=> item.accountNumber === "7230000246"));
       console.log(this.createForm.value['creditAccount']);
       this.acno = this.createForm.value['creditAccount'];
       console.log("creditAcs", JSON.parse(JSON.stringify(this.creditAcs)).find(item => item.accountNumber == this.createForm.value['creditAccount']));
@@ -109,6 +108,7 @@ export class CreatePaymentComponent implements OnInit {
       this.createForm.get('executionDate').markAsTouched();
     }
     this.submitted = true;
+    this.ref.detectChanges();
   }
 
   private initializeFormData(createForm) {
@@ -121,6 +121,7 @@ export class CreatePaymentComponent implements OnInit {
   }
 
   public postData(post) {
+    this.setp1Tab=true;this.setp2Tab=true;this.step3Tab=false;
     console.log('post::', post);
     console.log("this.amount ", this.createForm.value['amount'])
     this.createForm.value['creditAccount'] = post.creditAccount;
@@ -129,13 +130,15 @@ export class CreatePaymentComponent implements OnInit {
     this.createForm.value['amount'] = post.amount;
     this.createForm.value['currency'] = post.currency;
     this.createForm.value['executionDate'] = post.executionDate;
-    this.paymentListService.savePayment(JSON.stringify(post)).subscribe(
-      response => {
-        console.log('Data saved!!');
-      },
-      (err: HttpErrorResponse) => {
-        console.log(err.message);
-      }
-    );
+    this.ref.detectChanges();
+
+    // this.paymentListService.savePayment(JSON.stringify(post)).subscribe(
+    //   response => {
+    //     console.log('Data saved!!');
+    //   },
+    //   (err: HttpErrorResponse) => {
+    //     console.log(err.message);
+    //   }
+    // );
   }
 }
